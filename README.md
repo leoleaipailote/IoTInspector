@@ -6,3 +6,9 @@ In in the IoT Inspector’s current state, there exists a major flaw in its func
 underlying issue through experimentation with a raspberry pi and a local router. We then modified the source code in netdisco accordingly in a way that made UPNP, MDNS, and SSDP devices discoverable to
 the inspector. In addition to this, we collected important characteristics of each device such as the IP address, which was outputted in a csv file that contains all relevant information, ready to be processed for
 future use.
+
+The changes we made can be summarized as follows:
+- Removed the templates used to find certain devices like Google Home in the Discoverables folder
+- Created a general solution for UPNP/SSDP devices in general_devices.py
+- Created a general solution for MDNS devices through a function called discover_mdns_devices in netdiscowrapper.py
+- Produced a csv file upon running the code that contains each device detected with fields that include device name, type, and IP Address
