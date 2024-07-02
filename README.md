@@ -1,14 +1,42 @@
-# IoT Inspector
+# Enhanced IoT Inspector for MDNS, SSDP, and UPNP
 
-This repository includes the changes I made to the original [Smart Home Inspector](https://github.com/nyu-mlab/iot-inspector-client/tree/cr-dev) project as part of an independent research opportunity with Professor Noah Apthorpe.
+This project focuses on improving the IoT Inspector, an open-source tool initially incapable of identifying key IoT device protocols such as MDNS, SSDP, and UPNP due to the deprecation of the netdisco library. Our enhancements ensure these devices are now detectable, significantly advancing the app's functionality for cybersecurity purposes.
 
-In in the IoT Inspector’s current state, there exists a major flaw in its functionality: MDNS SSDP and UPNP devices, which make up a large portion of IoT devices, are not being properly identified. After analyzing the source code of the IoT Inspector, the root cause of this error was found in a python file labeled ‘netdiscowrapper.py’ that is supposed to be responsible for extracting naming information about devices on a network. The reason behind this is that the ‘netdisco’ library, which ‘netdiscowrapper.py’ utilizes is deprecated. To address this problem, we first identified the
-underlying issue through experimentation with a raspberry pi and a local router. We then modified the source code in netdisco accordingly in a way that made UPNP, MDNS, and SSDP devices discoverable to
-the inspector. In addition to this, we collected important characteristics of each device such as the IP address, which was outputted in a csv file that contains all relevant information, ready to be processed for
-future use.
+## Introduction
 
-The changes we made can be summarized as follows:
-- Removed the templates used to find certain devices like Google Home in the Discoverables folder
-- Created a general solution for UPNP/SSDP devices in general_devices.py
-- Created a general solution for MDNS devices through a function called discover_mdns_devices in netdiscowrapper.py
-- Produced a csv file upon running the code that contains each device detected with fields that include device name, type, and IP Address
+The IoT Inspector tool is designed to identify devices connected to a local network to enhance network security. However, its inability to detect a significant portion of IoT devices (MDNS, SSDP, and UPNP) limited its utility. Our project rectifies this by modifying the underlying netdisco library, thereby broadening the scope of detectable devices.
+
+## Key Features
+
+- **Device Detection Enhancement**: Introduces support for MDNS, SSDP, and UPNP devices, previously undetectable.
+- **Data Extraction**: Extracts and logs device details like IP addresses and device types into a CSV file for further processing.
+- **Custom Implementation**: Uses custom scripts to override the outdated functions of the netdisco library, enhancing the detection process.
+
+## Methodology
+
+1. **Identified Issues**: Through testing with a raspberry pi and local router setup, identified that the discovery functions of netdisco were not operational.
+2. **Custom Fixes**: Modified the source code to implement correct detection mechanisms for MDNS, SSDP, and UPNP protocols.
+3. **Validation**: Used extensive logging and real-time debugging to ensure that the devices were accurately detected and relevant information was captured.
+
+## Solutions Implemented
+
+- **General SSDP/UPNP Solution**: Implemented a generalized detection method by identifying common tags in the device information strings.
+- **MDNS Specific Solution**: Developed a new function leveraging the ZeroConf library to detect and catalogue MDNS devices effectively.
+
+## Future Work
+
+- **Expand Device Templates**: Integrate more comprehensive lists of device types for MDNS and SSDP protocols.
+- **Enhance Data Processing**: Develop clustering and classification algorithms to analyze collected data, aiding in the identification of commonalities and categorization of devices.
+
+## Discussion
+
+The experience revealed that modifying the existing IoT Inspector could be more complex than building a new solution from scratch due to the cumbersome and convoluted process of the existing netdisco implementation.
+
+## Conclusion
+
+Our modifications have significantly enhanced the IoT Inspector's functionality by enabling the detection of a broader range of IoT devices. Future improvements should focus on refining these detection capabilities and utilizing machine learning for data analysis.
+
+## References
+
+- Huang, Danny et al. "IoT Inspector: Crowdsourcing Labeled Network Traffic from Smart Home Devices at Scale"
+  [IoT Inspector Paper](https://iotinspector.org/papers/ubicomp-20.pdf)
